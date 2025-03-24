@@ -8,6 +8,7 @@ import os
 
 # Configuración inicial de la aplicación
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')  # Lee la clave
 CORS(app)
 
 # Configuración de rutas importantes
