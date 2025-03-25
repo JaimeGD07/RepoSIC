@@ -72,7 +72,7 @@ def predict():
             0: "nulo",
             1: "carton",
             2: "papel",
-            3: "plástico"
+            3: "metal"
         }
         
         prediccion = predecir_imagen(img_base64)
