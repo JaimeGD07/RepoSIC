@@ -81,7 +81,7 @@ def predict():
             
         return jsonify({
             'categoria': categoria.get(prediccion, 'desconocido'),
-            'codigo': int(prediccion) + 1
+            'codigo': int(prediccion)
         })
         
     except Exception as e:
