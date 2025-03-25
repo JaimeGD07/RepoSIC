@@ -76,7 +76,7 @@
             const reader = new FileReader();
             reader.onloadend = function() {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                fetch('http://127.0.0.1:5000/predict', {
+                fetch('https://reposic.onrender.com/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ image: base64String })
