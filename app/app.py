@@ -69,8 +69,8 @@ def predict():
         img_base64 = data['image']
         
         categoria = {
-            0: "cartón",
-            1: "papel",
+            1: "cartón",
+            0: "papel",
             2: "plastico"
         }
         
