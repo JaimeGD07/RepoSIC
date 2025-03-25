@@ -80,8 +80,8 @@ def predict():
             return jsonify({'error': 'Error procesando imagen'}), 400
             
         return jsonify({
-            'categoria': categoria.get(prediccion, 'desconocido'),
-            'codigo': int(prediccion)
+            'categoria': categoria.get(prediccion + 1, 'desconocido'),
+            'codigo': int(prediccion + 1)
         })
         
     except Exception as e:
