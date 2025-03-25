@@ -69,9 +69,10 @@ def predict():
         img_base64 = data['image']
         
         categoria = {
-            1: "cartón",
-            0: "papel",
-            2: "plastico"
+            0: "nulo",
+            1: "carton",
+            2: "papel",
+            3: "plástico"
         }
         
         prediccion = predecir_imagen(img_base64)
@@ -80,7 +81,7 @@ def predict():
             
         return jsonify({
             'categoria': categoria.get(prediccion, 'desconocido'),
-            'codigo': int(prediccion)
+            'codigo': int(prediccion) + 1
         })
         
     except Exception as e:
