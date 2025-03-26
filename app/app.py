@@ -105,7 +105,7 @@ def predict():
 # Función para chat
 @app.route('/chat', methods=['POST'])
 def chat():
-    #evaluate if pkl aren't availables
+    #busca si esta los archivos pkl relacionados al chatbot
     if not chatbot_model or not vectorizer:
         return jsonify({'error': 'Modelo de chatbot no disponible'}), 500
     
