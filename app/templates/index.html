@@ -49,6 +49,40 @@
         </div>
     </div>
     
+    <!--chatbot-->
+    <button id="chatbot-btn" class="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700">
+        Eco-Chat 💬
+    </button>
+
+    <div id="chatbot-popup" class="hidden fixed bottom-16 right-5 bg-white w-80 h-125 p-4 shadow-lg rounded-lg border">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-700">Eco-Chat</h3>
+            <button onclick="toggleChatbot()" class="text-red-500 text-lg">✖</button>
+        </div>
+        <div id="chatbot-messages" class="h-64 overflow-y-auto border p-2 text-gray-700 bg-gray-100 rounded"></div>
+        
+        <!-- Contenedor para el botón de "?" y el input -->
+        <div class="flex items-center mt-2">
+            <div class="relative mr-2">
+                <button id="faq-btn" class="bg-blue-500 text-white w-10 h-10 flex items-center justify-center rounded-full">
+                    ?  
+                </button>
+                <div id="faq-menu" class="absolute bottom-full left-0 mb-2 w-48 bg-white border rounded-lg shadow-lg hidden">
+                    <ul class="text-gray-700">
+                        <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="fillInput('¿Cómo puedo empezar a reciclar?')">¿Cómo puedo empezar a reciclar?</li>
+                        <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="fillInput('¿Por qué es importante reciclar?')">¿Por qué es importante reciclar?</li>
+                        <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="fillInput('¿Qué materiales puedo reciclar?')">¿Qué materiales puedo reciclar?</li>
+                        <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="fillInput('¿Qué es la economía circular?')">¿Qué es la economía circular?</li>
+                    </ul>
+                </div>
+            </div>
+            <input id="chatbot-input" type="text" placeholder="Escribe tu mensaje..." class="flex-grow border rounded p-2 text-black">
+        </div>
+        
+        <button onclick="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full">Enviar</button>
+    </div>
+    <!--Fin chatbot-->
+
     <script>
         function previewImage() {
             const fileInput = document.getElementById('fileInput');
@@ -190,6 +224,51 @@
             if (document.hidden) stopCamera();
         });
 
+        //inicio de codigo de chatbot
+
+        function toggleChatbot() {
+            const popup = document.getElementById("chatbot-popup");
+            popup.classList.toggle("hidden");
+        }
+    
+        document.getElementById("chatbot-btn").addEventListener("click", toggleChatbot);
+    
+        function sendMessage() {
+            const input = document.getElementById("chatbot-input");
+            const message = input.value.trim();
+            if (!message) return;
+    
+            const messagesDiv = document.getElementById("chatbot-messages");
+            messagesDiv.innerHTML += `<div class="text-right text-blue-600 font-bold mb-1">${message}</div>`;
+    
+            fetch("https://reposic.onrender.com/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                messagesDiv.innerHTML += `<div class="text-left text-gray-700 bg-gray-200 p-2 rounded-md mb-1">${data.response}</div>`;
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            })
+            .catch(error => console.error("Error:", error));
+    
+            input.value = "";
+        }
+
+        // Función para mostrar/ocultar el menú
+        document.getElementById("faq-btn").addEventListener("click", function () {
+        document.getElementById("faq-menu").classList.toggle("hidden");
+        });
+
+        // Función para insertar la pregunta en el input
+        function fillInput(text) {
+            document.getElementById("chatbot-input").value = text;
+            document.getElementById("faq-menu").classList.add("hidden"); // Ocultar el menú después de seleccionar
+        }
+
+        //fin de codigo de chatbot
+
         // Helpers para UI
         function getCategoryColor(code) {
             const colors = { 0: '#E69DFB', 1: '#8B4513', 2: '#FFFFFF', 3: '#BBA9BB' };
@@ -197,7 +276,7 @@
         }
 
         function getCategoryEmoji(code) {
-            const emojis = { 0: '👽', 1: '📦', 2: '📄', 3: '🥫' };
+            const emojis = { 0: '👽', 1: '📦', 2: '🥫', 3: '📄' };
             return emojis[code] || '❓';
         }
 </script>
@@ -239,6 +318,14 @@
             transform: scale(1.05);
             background-color: #e53e3e; /* Rojo más oscuro al hover */
         }
+
+        .hidden { display: none; }
+        #chatbot-popup {
+              max-height: 75vh; /* Ajusta la altura máxima según sea necesario */
+              overflow-y: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+              bottom: 80px; /* Ajusta la posición para que no se desborde */
+        }           
+
     </style>
 </body>
 </html>
