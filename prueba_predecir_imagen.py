@@ -34,7 +34,7 @@ def predecir_imagen(image_path):
     prediccion = clf.predict(img_flat)
     return prediccion[0]
 
-# Ruta de la imagen a predecir (ajusta la ruta según tu estructura)
+# Ruta de la imagen a predecir
 image_path = "./dataPrueba/cartonPrueba.jpg"
 
 categoria = {

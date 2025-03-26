@@ -5,9 +5,9 @@ def create_app():
     app = Flask(__name__)
     
     # Configuración básica
-    app.config.from_pyfile('config.py')  # Si usas config.py
+    app.config.from_pyfile('config.py')
     
-    # Inicializar extensiones (CORS, DB, etc.)
+    # Inicializar extensiones
     from flask_cors import CORS
     CORS(app)
     
@@ -17,7 +17,7 @@ def create_app():
         app.clf = load_model(app.config['MODEL_PATH'])
     
     # Registrar rutas
-    from app import routes  # Importa tus rutas
-    app.register_blueprint(routes.bp)  # Si usas Blueprints
+    from app import routes
+    app.register_blueprint(routes.bp)
     
     return app

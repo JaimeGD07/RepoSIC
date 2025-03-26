@@ -5,7 +5,7 @@ import pandas as pd
 import base64
 from datasets import load_dataset
 
-# Directorio donde están las imágenes (ajusta la ruta según tu estructura)
+# Directorio donde están las imágenes
 data_dir = "./data"
 
 # Tamaño deseado para las imágenes

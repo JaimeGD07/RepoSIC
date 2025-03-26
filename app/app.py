@@ -9,16 +9,10 @@ import random
 
 # Configuración inicial de la aplicación
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY')  # Lee la clave
+app.secret_key = os.getenv('SECRET_KEY')
 CORS(app)
 
-# Configuración de rutas importantes
-#app.config.update({
-#    'MODEL_PATH': os.path.join(app.root_path, 'data', 'modelo_random_forest.pkl'),
-#    'IMG_SIZE': (512, 384)
-#})
-
-# Configuración de rutas (al inicio del archivo)
+# Configuración de rutas
 app.config.update({
     'MODEL_IMAGE_PATH': os.path.join(app.root_path, 'data', 'modelo_random_forest.pkl'),
     'MODEL_CHATBOT_PATH': os.path.join(app.root_path, 'data', 'chatbot_model.pkl'),
@@ -26,17 +20,7 @@ app.config.update({
     'IMG_SIZE': (512, 384)
 })
 
-
-# Cargar el modelo de ML al iniciar
-#try:
-#    with open(app.config['MODEL_PATH'], "rb") as model_file:
-#        clf = pickle.load(model_file)
-#    print("✅ Modelo cargado correctamente desde:", app.config['MODEL_PATH'])
-#except Exception as e:
-#    print(f"❌ Error cargando el modelo: {str(e)}")
-#    clf = None
-
-# Cargar modelos al iniciar (después de app.config)
+# Cargar modelos al iniciar
 try:
     # Modelo de imágenes
     with open(app.config['MODEL_IMAGE_PATH'], "rb") as f:
@@ -49,9 +33,9 @@ try:
     with open(app.config['VECTORIZER_PATH'], "rb") as f:
         vectorizer = pickle.load(f)
     
-    print("✅ Todos los modelos cargados correctamente")
+    print("Todos los modelos cargados correctamente")
 except Exception as e:
-    print(f"❌ Error cargando modelos: {str(e)}")
+    print(f"Error cargando modelos: {str(e)}")
     clf, chatbot_model, vectorizer = None, None, None
 
 
